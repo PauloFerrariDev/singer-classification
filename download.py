@@ -1,33 +1,22 @@
 from pytube import Playlist, YouTube
+import yt_dlp
 from io import BytesIO
 import ffmpeg
-import filter
 import os
+import json
 
-singers = [
-  "elza-soares", # samba
-  "rita-lee", # mpb
-  "roberta-miranda", # sertanejo
-  "roberta-sa", # samba
-  "cassia-eller", # rock
-  "racionais-mcs", # rap
-  "raimundos", # rock
-  "planet-hemp", # hip-hop
-  "natiruts", # reggae
-  "jorge-ben-jor", # bossa nova
+# Sample JSON data (as a string)
+json_singers = '''
+[
+    {"name": "ENG HAWAII", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIHtOj5lRtgulwQey4x2MfE&si=KhyEfIjx0ihw7B1Y"},
+    {"name": "CAPITAL INICIAL", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIJVdOClCzrXHn6VJRg9rsE&si=C2k_XKjVhuy9el2p"},
+    {"name": "O RAPPA", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpKvr7QmMPt4HrlNWzs1HpUS&si=ubACMhW-FxSVAkfF"},
+    {"name": "CASSIA ELLER", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpKpAz1HbcP6hDMUkbpFRbzJ&si=ZeQZaDWKcaUYjMwB"},
+    {"name": "RITA LEE", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIlTzO9HuLv-b4TBBhjFQbo&si=VmVcYrt6rgVJVRdB"}
 ]
-playlists = [
-  "https://youtube.com/playlist?list=PLAjEgfN1lYafJXIZco9RFCfSegyo7knOt", # elza-soares
-  "https://youtube.com/playlist?list=PLxFfose56AjeNyJjGhbguYhPBCTZks9Lc", # rita-lee
-  "https://youtube.com/playlist?list=PLfTHnLd-UmHMyjNSxYn7vPDEC7hbAXE4g", # roberta-miranda
-  "https://youtube.com/playlist?list=PLE6CB1BD95D51A8CA",                 # roberta-sa
-  "https://youtube.com/playlist?list=PLPhmvZL4T7BB2V0NiuqNUCLDFpqXOPt9D", # cassia-eller
-  "https://youtube.com/playlist?list=PL1EFB0F9942717155",                 # racionais-mcs
-  "https://youtube.com/playlist?list=PLPhmvZL4T7BBcR8YXX-DwCoQMdEMKVTbt", # raimundos
-  "https://youtube.com/playlist?list=PL2652111017CAD76C",                 # planet-hemp
-  "https://youtube.com/playlist?list=PL_lW1_PMwv7O3faHITOGujtZx89Xj1Rhb", # natiruts
-  "https://youtube.com/playlist?list=PL5OidG0sGjBoH1NkRBhO9J2T8Jyj471Lr", # jorge-ben-jor
-]
+'''
+# Parse the JSON data
+singers = json.loads(json_singers)
 playlist_size = 30
 
 #* Buffering audio stream using Pytube
@@ -54,6 +43,21 @@ def process(buffer:BytesIO, output_file:str, ss="01:30"):
     except Exception as e:
         print("Error:", e)
 
+#* DOWNLOAD WITH yt_dlp
+def download_audio(url, output_path='.', num='0'):
+    print(f"DOWNLOAD: {url} IN {output_path}")
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        'outtmpl': f'{output_path}/{num}.%(ext)s',
+    }
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
+
 #* Create directory for singer's audios
 def create_directory(dir:str):
     if not os.path.exists(dir): # checking if the directory exist or not     
@@ -61,41 +65,24 @@ def create_directory(dir:str):
 
 #* Iterate over playlists array
 def playlists_handler():
-    for(singer, playlist) in zip(singers, playlists):
-        singer_dir = "./audios/%s"%singer
-        create_directory(singer_dir)
-        pl = Playlist(playlist)[:playlist_size]
+    for singer in singers:
+        output_path = f"./musicas/{singer['name']}"
+        create_directory(output_path)
+        pl = Playlist(singer['url'])[:playlist_size]
+        print('pl', pl)
+        print('pl len', len(pl))
         for i in range(0, playlist_size):
             url = pl[i]
-            output_file = "%s/audio-%s.wav"%(singer_dir, i)
-            process(audio_buffer(url), output_file)
-            
-def audios_below_30sec():
-    for singer in singers:
-        singer_dir = "./audios/%s"%singer
-        for i in range(0, playlist_size):
-            audio_path = "%s/audio-%s.wav"%(singer_dir, i)
-            audio, sr, _ = filter.audio_data(audio_path)
-            duration = audio.size/sr
-            if(duration<30):
-                print(audio_path)
-
-def fix_audios():
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=_emCHu4ECS0&list=PLPhmvZL4T7BBcR8YXX-DwCoQMdEMKVTbt&index=18"),output_file="./audios/raimundos/audio-17.wav", ss="00:10")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=_zld8rkIhZk&list=PLAjEgfN1lYafJXIZco9RFCfSegyo7knOt&index=13"),output_file='./audios/elza-soares/audio-12.wav', ss="00:10")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=QuDYmfUEakA&list=PL1EFB0F9942717155&index=23"),output_file='./audios/racionais-mcs/audio-22.wav', ss="00:10")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=kU2tZZQpENA&list=PLPhmvZL4T7BBcR8YXX-DwCoQMdEMKVTbt&index=24"),output_file='./audios/raimundos/audio-23.wav', ss="00:10")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=SctRTbfJfBE&list=PL2652111017CAD76C&index=17"),output_file='./audios/planet-hemp/audio-16.wav', ss="00:10")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=N7mJ6-_zm08&list=PL2652111017CAD76C&index=24"),output_file='./audios/planet-hemp/audio-23.wav', ss="00:25")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=zDYDqbmKpXg&list=PL2652111017CAD76C&index=33"),output_file='./audios/planet-hemp/audio-28.wav', ss="00:30")
-    process(buffer=audio_buffer("https://www.youtube.com/watch?v=OjWET9ZCWus&list=PL5OidG0sGjBoH1NkRBhO9J2T8Jyj471Lr&index=30"),output_file='./audios/jorge-ben-jor/audio-29.wav', ss="00:05")
-
-#* Main function
-def run_download_script():
-    print("\n*** START ***")
-    audios_below_30sec()  
-    # fix_audios()
-    print("*** END ***\n")
+            download_audio(url, output_path, i+1)           
 
 #* Run script
-# run_download_script()
+print("\n*** START ***")
+print('singers', singers)
+playlists_handler()
+# # URL of the YouTube video
+# url = 'https://www.youtube.com/watch?v=uVCwGxb_FDs'
+# # Path to save the downloaded file
+# output_path = '/music'
+# # Call the function to download audio
+# download_audio(url, output_path)
+print("*** END ***\n")
