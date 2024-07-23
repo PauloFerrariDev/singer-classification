@@ -8,7 +8,7 @@ Conda docs: https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-co
 # To activate this environment, use
 #
 #     $ conda activate {absolute path to /conda directory inside project folder}
-#
+#       conda activate C:\Users\paulo\Desktop\2024_1\Machine_Learning\ML_PROJECT\conda
 # To deactivate an active environment, use
 #
 #     $ conda deactivate
