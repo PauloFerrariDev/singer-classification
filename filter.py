@@ -5,8 +5,8 @@ import librosa
 import sounddevice as sd
 
 two_pi = 2*np.pi
-order = 8 # max order for bandpass Butterworth filter without error
-Wn = np.array([100, 320])*two_pi # cutoff frequencies [rad/s]
+order = 6 # max order for bandpass Butterworth filter without error
+Wn = np.array([100, 270])*two_pi # cutoff frequencies [rad/s]
 
 def audio_data(audio_path: str):
     audio , sr = librosa.load(audio_path) # sr = sampling rate [sample/s]
@@ -46,15 +46,15 @@ def add_uniform_noise(audio_data, noise_level=0.05, t=[]):
     """
        
     # Ensure the audio data is in float format
-    audio_data = audio_data.astype(np.float32)
+    # audio_data = audio_data.astype(np.float32)
     
     # Generate uniform noise
     noise = np.random.uniform(low=-noise_level, high=noise_level, size=audio_data.shape)
     
-    if(len(t)>0):
-        plt.plot(t,noise)
-        plt.title("uniform noise")
-        plt.show()
+    # if(len(t)>0):
+    #     plt.plot(t,noise)
+    #     plt.title("uniform noise")
+    #     plt.show()
 
     # Add the noise to the audio data
     noisy_audio = audio_data + noise
@@ -84,15 +84,15 @@ def add_normal_noise(audio_data, noise_level=0.05, t=[]):
     """
           
     # Ensure the audio data is in float format
-    audio_data = audio_data.astype(np.float32)
+    # audio_data = audio_data.astype(np.float32)
     
     # Generate Normal noise
     noise = np.random.normal(loc=0.0, scale=noise_level, size=audio_data.shape)
     
-    if(len(t)>0):
-        plt.plot(t,noise)
-        plt.title("normal noise")
-        plt.show()
+    # if(len(t)>0):
+    #     plt.plot(t,noise)
+    #     plt.title("normal noise")
+    #     plt.show()
 
     # Add the noise to the audio data
     noisy_audio = audio_data + noise

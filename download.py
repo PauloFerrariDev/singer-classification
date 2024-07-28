@@ -6,15 +6,25 @@ import os
 import json
 
 # Sample JSON data (as a string)
+# json_singers = '''
+# [
+#     {"name": "ENG_HAWAII", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIHtOj5lRtgulwQey4x2MfE&si=KhyEfIjx0ihw7B1Y"},
+#     {"name": "CAPITAL_INICIAL", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIJVdOClCzrXHn6VJRg9rsE&si=C2k_XKjVhuy9el2p"},
+#     {"name": "O_RAPPA", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpKvr7QmMPt4HrlNWzs1HpUS&si=ubACMhW-FxSVAkfF"},
+#     {"name": "CASSIA_ELLER", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpKpAz1HbcP6hDMUkbpFRbzJ&si=ZeQZaDWKcaUYjMwB"},
+#     {"name": "RITA_LEE", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIlTzO9HuLv-b4TBBhjFQbo&si=VmVcYrt6rgVJVRdB"}
+# ]
+# '''
+    # {"name": "ZELIA_DUNCAN", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpJMT5sQKG9vpbxrGJ0pCPFb&si=kaYIizhn7xcgiFsU"},
+    # {"name": "TIM_MAIA", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpLcy6jZf1rWmh-m57ENXtsq&si=h1JgVBfl9J0WNBx5"},
+    # {"name": "ZE_RAMALHO", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpJKbQ0iRJkXFvt1WH6_klJs&si=-wRuJ1ZUGfpyd4vZ"},
+    # {"name": "ELIS_REGINA", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpLURx0AY8Cl0NFFCSQFZ7SE&si=qvis1UWOgiafPvkv"},
 json_singers = '''
 [
-    {"name": "ENG HAWAII", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIHtOj5lRtgulwQey4x2MfE&si=KhyEfIjx0ihw7B1Y"},
-    {"name": "CAPITAL INICIAL", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIJVdOClCzrXHn6VJRg9rsE&si=C2k_XKjVhuy9el2p"},
-    {"name": "O RAPPA", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpKvr7QmMPt4HrlNWzs1HpUS&si=ubACMhW-FxSVAkfF"},
-    {"name": "CASSIA ELLER", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpKpAz1HbcP6hDMUkbpFRbzJ&si=ZeQZaDWKcaUYjMwB"},
-    {"name": "RITA LEE", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpIlTzO9HuLv-b4TBBhjFQbo&si=VmVcYrt6rgVJVRdB"}
+    {"name": "PITTY", "url": "https://youtube.com/playlist?list=PLcEo8wAwxOpLeH2SW5g8vHFnHe5NWQ6rr&si=yXSBjT95k9uhwKO_"}
 ]
 '''
+
 # Parse the JSON data
 singers = json.loads(json_singers)
 playlist_size = 30
@@ -79,10 +89,4 @@ def playlists_handler():
 print("\n*** START ***")
 print('singers', singers)
 playlists_handler()
-# # URL of the YouTube video
-# url = 'https://www.youtube.com/watch?v=uVCwGxb_FDs'
-# # Path to save the downloaded file
-# output_path = '/music'
-# # Call the function to download audio
-# download_audio(url, output_path)
 print("*** END ***\n")

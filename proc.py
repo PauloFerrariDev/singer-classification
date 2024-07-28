@@ -35,7 +35,7 @@ sr = 48000 #! NAO ALTERAR ESSE PARAMETRO!!!
 offset = sr * excerpt_duration #! NAO ALTERAR ESSE PARAMETRO!!!
 musics_folder = 'musicas' # alterar de acordo com seu diretorio
 excerpts_folder = 'trechos' # alterar de acordo com seu diretorio
-artist = 'CAPITAL INICIAL' # alterar para cada cantor analisado
+artist = 'CAPITAL_INICIAL' # alterar para cada cantor analisado
 excerpt_dir = f"./{excerpts_folder}/{artist}"
 create_directory(excerpt_dir)
 while(1):
@@ -54,7 +54,7 @@ while(1):
     for i in range(intervals):
         start = i*offset
         end = (i+1)*offset
-        excerpt = audio[start:end] # trecho
+        excerpt = audio[start:end] # trecho da musica
         print("Excerpt ", i+1)
         sd.play(excerpt, sr)
         sd.wait()
