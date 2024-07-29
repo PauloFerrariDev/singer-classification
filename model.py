@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -5,8 +6,12 @@ from sklearn.svm import SVC
 from sklearn.metrics import classification_report, f1_score, accuracy_score, precision_score, recall_score
 import joblib
 
+print("\n*** START ***")
+# Record the start time
+start_time = time.time()
+
 # Carregar o dataset
-dataframe = pd.read_csv('dataset_complete_with_recordings.csv')
+dataframe = pd.read_csv('./datasets/DATASET_4SINGERS_CLEAN.csv')
 
 y = dataframe.iloc[:, 1].to_numpy()   # target (coluna 'singer')
 X = dataframe.iloc[:, 3:].to_numpy()  # features
@@ -44,3 +49,11 @@ joblib.dump(svm_model, 'svm_model.pkl')
 # Para carregar o modelo e fazer novas previsões
 # svm_model = joblib.load('singer_identifier_svm_linear_model.pkl')
 # y_new_pred = svm_model.predict(X_new_scaled)  # Onde X_new_scaled são os novos dados padronizados
+
+# Record the end time
+end_time = time.time()
+# Calculate the elapsed time
+elapsed_time = end_time - start_time
+# Print the elapsed time
+print(f"Elapsed time: {elapsed_time} seconds")
+print("*** END ***\n")

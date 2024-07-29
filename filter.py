@@ -150,19 +150,19 @@ def plot_filtered_audio(audio, filtered_audio, sr, b, a, t, filter_type):
     plt.subplots_adjust(hspace=0.6)
     plt.show()
 
-def record_audio(duration=30, sample_rate=22050):
+def record_audio(duration=30, sample_rate=22050, device=14):
     print("Start Recording")
-    audio = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype='float32')
+    audio = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype='float32', device=device)
     sd.wait()
     print("Finished Recording")
     return audio, sample_rate
 
-def play_audio(audio, sr, duration=0):
+def play_audio(audio, sr, duration=0, device=4):
     if (len(audio) < sr*duration):
         print("Play Audio: Error")
         return
     print("Start Playing")
-    sd.play(audio, sr)
+    sd.play(audio, sr, device=device)
     sd.wait()
     print("Finished Playing")
 
@@ -201,3 +201,5 @@ def run_filter_script():
 
 #* Run script
 # run_filter_script()
+a, sr = record_audio(duration=10, sample_rate=48000)
+play_audio(a, sr)

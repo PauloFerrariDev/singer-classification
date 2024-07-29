@@ -6,12 +6,20 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.utils import to_categorical
 import joblib
+import time
+
+print("\n*** START ***")
+# Record the start time
+start_time = time.time()
 
 # Carregar o dataset
-dataset = pd.read_csv('dataset_complete_with_recordings.csv')
+dataset = pd.read_csv('./datasets/DATASET_4SINGERS_CLEAN.csv')
 
-X = dataset.iloc[:, 3:]  # Características
-y = dataset.iloc[:, 1]   # Variável alvo
+X = dataset.iloc[:, 1:]  # features
+y = dataset.iloc[:, 0]   # Variável alvo (singer)
+
+print('y',y)
+print('\nX',X)
 
 # Codificar as classes como inteiros
 label_encoder = LabelEncoder()
@@ -51,8 +59,16 @@ print(classification_report(y_test_classes, y_pred_classes))
 print("Acurácia:", accuracy_score(y_test_classes, y_pred_classes))
 
 # Salva o modelo treinado para uso futuro
-# model.save('modelo_redes_neurais_bandpass.h5')
-# joblib.dump(scaler, 'scaler.pkl')  # Salvar o scaler também
-# joblib.dump(label_encoder, 'label_encoder.pkl')  # Salvar o codificador de rótulos também
+model.save('NN_model_tensorflow.h5')
+joblib.dump(scaler, 'scaler.pkl')  # Salvar o scaler também
+joblib.dump(label_encoder, 'label_encoder.pkl')  # Salvar o codificador de rótulos também
 # Salva o modelo treinado para uso futuro
-joblib.dump(model, 'nn_model.pkl')
+# joblib.dump(model, 'NN_model_tensorflow.pkl')
+
+# Record the end time
+end_time = time.time()
+# Calculate the elapsed time
+elapsed_time = end_time - start_time
+# Print the elapsed time
+print(f"Elapsed time: {elapsed_time} seconds")
+print("*** END ***\n")

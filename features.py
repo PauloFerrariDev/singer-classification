@@ -11,16 +11,16 @@ from create_csv import create_csv_file
 n_mfcc=20
 playlist_size=30
 singers = [
-  "elza-soares", # samba
-  "rita-lee", # mpb
-  "roberta-miranda", # sertanejo
-  "roberta-sa", # samba
-  "cassia-eller", # rock
-  "racionais-mcs", # rap
-  "raimundos", # rock
-  "planet-hemp", # hip-hop
-  "natiruts", # reggae
-  "jorge-ben-jor", # bossa nova
+  "CAPITAL_INICIAL",
+  "CASSIA_ELLER",
+  "ELIS_REGINA",
+  "ENG_HAWAII",
+  "O_RAPPA",
+  "PITTY",
+  "RITA_LEE",
+  "TIM_MAIA",
+  "ZE_RAMALHO",
+  "ZELIA_DUNCAN",
 ]
 
 def bpm(audio, sr):
@@ -174,7 +174,7 @@ def extract_features():
     excerpt_duration = 5 #! NAO ALTERAR ESSE PARAMETRO!!!
     sr = 48000 #! NAO ALTERAR ESSE PARAMETRO!!!
     offset = sr * excerpt_duration #! NAO ALTERAR ESSE PARAMETRO!!!
-    artist = 'CAPITAL_INICIAL' # alterar para cada cantor analisado
+    artist = 'CASSIA_ELLER' # alterar para cada cantor analisado
     musics_dir = f'./musicas/{artist}' # alterar de acordo com seu diretorio
     excerpts_dir = f'./trechos/{artist}' # alterar de acordo com seu diretorio
     dataset_dir = './datasets' # alterar de acordo com seu diretorio

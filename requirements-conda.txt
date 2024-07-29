@@ -1,7 +1,0 @@
-librosa
-scikit-learn
-scipy
-pandas
-numpy
-matplotlib
-tensorflow-cpu

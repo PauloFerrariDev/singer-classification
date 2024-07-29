@@ -89,4 +89,5 @@ def playlists_handler():
 print("\n*** START ***")
 print('singers', singers)
 playlists_handler()
+# download_audio(url='https://www.youtube.com/watch?v=bVcIU0WvAzE', output_path="./musicas/CASSIA_ELLER", num=28)
 print("*** END ***\n")

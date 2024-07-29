@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 import joblib
 
 # Carregar o modelo treinado
-model = load_model('modelo_redes_neurais_bandpass.h5')
+model = load_model('NN_model_tensorflow.h5')
 
 # Carregar o scaler e o label encoder salvos
 scaler = joblib.load('scaler.pkl')
