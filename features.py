@@ -88,6 +88,13 @@ def create_data_table_header():
         header = np.append(header, ['mfcc%s_mean'%i, 'mfcc%s_var'%i])
     return header
 
+#* CREATE MEAN AND VAR COLUMNS HEADER FOR EACH FEATURE
+def create_data_table_header_clean():
+    header = ['singer','bpm','stft_mean','stft_var','cqt_mean','cqt_var','cens_mean','cens_var','contrast_mean','contrast_var','centroid_mean','centroid_var','bandwidth_mean','bandwidth_var','melspectrogram_mean','melspectrogram_var','rms_mean','rms_var']
+    for i in range(1, n_mfcc+1):
+        header = np.append(header, ['mfcc%s_mean'%i, 'mfcc%s_var'%i])
+    return header
+
 #* CREATE MEAN AND VAR COLUMNS FOR EACH FEATURE
 def create_instance(singer, filename, sample, audio, sr):    
     instance = np.array([singer,filename,sample,bpm(audio,sr),*stft(audio,sr),*cqt(audio,sr),
@@ -99,6 +106,16 @@ def create_instance(singer, filename, sample, audio, sr):
     return instance
 
 #* CREATE MEAN AND VAR COLUMNS FOR EACH FEATURE
+def create_instance_clean(singer, audio, sr):    
+    instance = np.array([singer,bpm(audio,sr),*stft(audio,sr),*cqt(audio,sr),
+                         *cens(audio,sr),*contrast(audio,sr),*centroid(audio,sr),
+                         *bandwidth(audio,sr),*melspectrogram(audio,sr),*rms(audio)])
+    m, v = mfcc(audio,sr)
+    for i in range(0, n_mfcc):
+        instance = np.append(instance, [m[i], v[i]])
+    return instance
+
+#! CREATE MEAN AND VAR COLUMNS FOR EACH FEATURE
 def get_audio_features(audio, sr):
     features = np.array([bpm(audio,sr),*stft(audio,sr),*cqt(audio,sr),
                          *cens(audio,sr),*contrast(audio,sr),*centroid(audio,sr),
@@ -257,4 +274,4 @@ def extract_features():
             
 #* Run script
 # run_features_script()
-extract_features()
+# extract_features()

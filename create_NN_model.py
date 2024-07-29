@@ -26,11 +26,11 @@ print('\nX',X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Criar o modelo de Rede Neural com os parâmetros especificados
-mlp = MLPClassifier(hidden_layer_sizes=(1000, 800, 500, 100),
+mlp = MLPClassifier(hidden_layer_sizes=(1000, 1000, 1000),
                     activation='relu',
                     solver='adam',
                     alpha=0.0001,
-                    max_iter=15000,
+                    max_iter=150000,
                     random_state=42)
 
 # Treinar o modelo

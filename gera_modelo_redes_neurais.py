@@ -46,7 +46,7 @@ model.add(Dense(y_train.shape[1], activation='softmax'))  # Softmax para classif
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Treinar o modelo
-model.fit(X_train, y_train, epochs=50, batch_size=10, verbose=1)
+model.fit(X_train, y_train, epochs=100, batch_size=10, verbose=1)
 
 # Fazer previsões no conjunto de teste
 y_pred = model.predict(X_test)
