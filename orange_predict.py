@@ -5,7 +5,7 @@ import soundfile as sf
 import librosa
 import time
 from filter import record_audio, play_audio, audio_normalized
-from features import cleanAudioData, create_data_table_header_clean, create_instance_clean
+from features import clean_audio_data, create_data_table_header_clean, create_instance_clean
 from create_csv import create_csv_file
 import warnings
 
@@ -33,8 +33,8 @@ writer.writerow(header)
 print('START RECORDING', duration, 'SECONDS...')
 audio, *_ = record_audio(duration=duration, sample_rate=sr)
 audio = np.array(np.array(audio).flat) #! essa linha esta correta!
-# audio = cleanAudioData(audio)
-audio = audio_normalized(cleanAudioData(audio))
+# audio = clean_audio_data(audio)
+audio = audio_normalized(clean_audio_data(audio))
 # play_audio(audio, sr)
 # print('audio:', audio, 'len:', len(audio))
 print('SAVE AUDIO IN .WAV FILE')

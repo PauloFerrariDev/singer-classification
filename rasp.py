@@ -7,9 +7,13 @@ import librosa
 import time
 import csv
 import warnings
+from scipy.signal import butter, lfilter
 
 warnings.filterwarnings("ignore") # Suppress all warnings
 
+two_pi = 2*np.pi
+order = 6 # max order for bandpass Butterworth filter without error
+Wn = np.array([100, 270])*two_pi # cutoff frequencies [rad/s]
 n_mfcc=20
 playlist_size=30
 
@@ -99,13 +103,18 @@ def audio_normalized(audio):
     audio_n = audio / max
     return audio_n
 
-def cleanAudioData(y):
+def clean_audio_data(y):
     # Check if there are any NaN or Inf values
     if not np.isfinite(y).all():
         print("Audio buffer contains NaN or Inf values.")
         # Replace NaN with zero and Inf with finite large value
         y = np.where(np.isnan(y), 0, y)
         y = np.where(np.isinf(y), np.finfo(y.dtype).max, y)
+    return y
+
+def bandpass_filter(audio, sr):    
+    b, a = butter(N=order, Wn=Wn, btype='bandpass', analog=False, output='ba', fs=sr)
+    y = lfilter(b, a, audio)
     return y
 
 def create_data_table_header_clean():
@@ -143,7 +152,7 @@ writer.writerow(header)
 print('START RECORDING', duration, 'SECONDS...')
 audio, *_ = record_audio(duration=duration, sample_rate=sr)
 audio = np.array(np.array(audio).flat) #! essa linha esta correta!
-audio = audio_normalized(cleanAudioData(audio))
+audio = audio_normalized(clean_audio_data(audio))
 print('SAVE AUDIO IN .WAV FILE')
 sf.write(file=music_path, data=audio, samplerate=sr)
 
@@ -153,10 +162,16 @@ for i in range(intervals):
     end = next*offset
     singer = f'SAMPLE_{next}'
     excerpt = audio[start:end]
+    excerpt_bp = audio_normalized(clean_audio_data(bandpass_filter(excerpt, sr)))
     print(f'{singer}: EXTRACTING FEATURES...')
     play_audio(excerpt, sr)
-    instance = create_instance_clean(singer, audio=excerpt, sr=sr)
-    writer.writerow(instance)
+    play_audio(excerpt_bp, sr)
+    instances = [
+                create_instance_clean(singer, audio=excerpt, sr=sr),
+                create_instance_clean(singer, audio=excerpt_bp, sr=sr)
+                ]
+    for instance in instances:
+        writer.writerow(instance)
 
 # Close write in CSV file             
 csvfile.close()

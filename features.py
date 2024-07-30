@@ -174,7 +174,7 @@ def create_directory(dir:str):
     if not os.path.exists(dir): # checking if the directory exist or not     
         os.makedirs(dir) # if the directory is not present then create it
 
-def cleanAudioData(y):
+def clean_audio_data(y):
     # Check if there are any NaN or Inf values
     if not np.isfinite(y).all():
         print("Audio buffer contains NaN or Inf values.")
@@ -220,7 +220,7 @@ def extract_features():
             end = next*offset
             singer = artist if excerpts_class[i] == voice_key else 'NOISE'
             print(f'\nExcerpt {next} Class: {singer}')
-            excerpt = cleanAudioData(audio[start:end]) #? trecho da musica
+            excerpt = clean_audio_data(audio[start:end]) #? trecho da musica
             print("excerpt:", excerpt, len(excerpt))
             # Check if all elements are zero, then ignore excerpt
             if np.all(excerpt == 0):
@@ -237,17 +237,17 @@ def extract_features():
             # sd.play(excerpt_nn, sr)
             # sd.wait()
             excerpt_bp, *_ = filter.bandpass_filter(excerpt, sr)
-            excerpt_bp = filter.audio_normalized(cleanAudioData(excerpt_bp))
+            excerpt_bp = filter.audio_normalized(clean_audio_data(excerpt_bp))
             print("excerpt_bp:", excerpt_bp, len(excerpt_bp))
             # sd.play(excerpt_bp, sr)
             # sd.wait()
             excerpt_bp_un, *_ = filter.bandpass_filter(excerpt_un, sr)
-            excerpt_bp_un = filter.audio_normalized(cleanAudioData(excerpt_bp_un))
+            excerpt_bp_un = filter.audio_normalized(clean_audio_data(excerpt_bp_un))
             print("excerpt_bp_un:", excerpt_bp_un, len(excerpt_bp_un))
             # sd.play(excerpt_bp_un, sr)
             # sd.wait()
             excerpt_bp_nn, *_ = filter.bandpass_filter(excerpt_nn, sr)
-            excerpt_bp_nn = filter.audio_normalized(cleanAudioData(excerpt_bp_nn))
+            excerpt_bp_nn = filter.audio_normalized(clean_audio_data(excerpt_bp_nn))
             print("excerpt_bp_nn:", excerpt_bp_nn, len(excerpt_bp_nn))
             # sd.play(excerpt_bp_nn, sr)
             # sd.wait()            
