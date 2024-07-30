@@ -191,7 +191,7 @@ def extract_features():
     excerpt_duration = 5 #! NAO ALTERAR ESSE PARAMETRO!!!
     sr = 48000 #! NAO ALTERAR ESSE PARAMETRO!!!
     offset = sr * excerpt_duration #! NAO ALTERAR ESSE PARAMETRO!!!
-    artist = 'CASSIA_ELLER' # alterar para cada cantor analisado
+    artist = 'ZE_RAMALHO' # alterar para cada cantor analisado
     musics_dir = f'./musicas/{artist}' # alterar de acordo com seu diretorio
     excerpts_dir = f'./trechos/{artist}' # alterar de acordo com seu diretorio
     dataset_dir = './datasets' # alterar de acordo com seu diretorio
@@ -274,4 +274,4 @@ def extract_features():
             
 #* Run script
 # run_features_script()
-# extract_features()
+extract_features()
