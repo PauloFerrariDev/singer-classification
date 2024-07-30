@@ -4,3 +4,4 @@ pytube
 ffmpeg-python
 tsfel
 joblib
+orange3
