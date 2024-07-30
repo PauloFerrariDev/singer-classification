@@ -23,6 +23,7 @@ duration = 60 #? alterar de acordo com o tempo total de amostragem
 intervals = int(duration / excerpt_duration)
 data_path = './datasets/DATA.csv' #? alterar de acordo com seu diretorio
 music_path = './files/DATA.wav' #? alterar de acordo com seu diretorio
+model_path = "./modelos/orange_NN_model_5singers.pkcls" #? alterar de acordo com seu diretorio
 csvfile, writer = create_csv_file(data_path)
 header = create_data_table_header_clean()
 writer.writerow(header)
@@ -54,7 +55,6 @@ for i in range(intervals):
 csvfile.close()
 
 # Load the saved model
-model_path = "./orange_NN_model_4singers.pkcls"
 with open(model_path, "rb") as file:
     model = pickle.load(file)
 
